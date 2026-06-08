@@ -6,7 +6,7 @@ export function realizarLogin(
 ) {
     return cy.request({
         method: 'POST',
-        url: 'https://serverest.dev/login',
+        url: '/login',
         failOnStatusCode,
         body: {
             email,
