@@ -4,6 +4,8 @@ module.exports = defineConfig({
   allowCypressEnv: false,
 
   e2e: {
+    baseUrl: 'https://serverest.dev',
+    
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },

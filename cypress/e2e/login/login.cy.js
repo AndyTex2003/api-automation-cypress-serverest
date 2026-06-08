@@ -73,7 +73,7 @@ describe('ServeRest - Login', () => {
 
     cy.request({
       method: 'POST',
-      url: 'https://serverest.dev/login',
+      url: '/login',
       failOnStatusCode: false,
       body: {
         password: '123456'
@@ -94,7 +94,7 @@ describe('ServeRest - Login', () => {
 
     cy.request({
       method: 'POST',
-      url: 'https://serverest.dev/login',
+      url: '/login',
       failOnStatusCode: false,
       body: {
         email: 'fulano@qa.com'
