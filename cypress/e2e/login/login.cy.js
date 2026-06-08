@@ -6,31 +6,27 @@ describe('ServeRest - Login', () => {
 
   it('Deve criar usuário e fazer login com sucesso', () => {
 
-    const usuario = {
-      nome: 'QA Test',
-      email: `qa${Date.now()}@qa.com`,
-      password: '123456',
-      administrador: 'true'
-    }
+    cy.fixture('usuario').then((dadosUsuario) => {
 
-    criarUsuario(usuario)
-      .then(() =>
-        realizarLogin(
-          usuario.email,
-          usuario.password
-        )
-      )
-      .then((response) => {
+      const usuario = {
+        ...dadosUsuario,
+        email: `qa${Date.now()}@qa.com`
+      }
 
-        expect(response.status).to.eq(200)
+      criarUsuario(usuario)
+        .then(() => realizarLogin(usuario.email, usuario.password))
+        .then((response) => {
 
-        expect(response.body)
-          .to.have.property('authorization')
+          expect(response.status).to.eq(200)
 
-        expect(response.body.message)
-          .to.eq('Login realizado com sucesso')
+          expect(response.body)
+            .to.have.property('authorization')
 
-      });
+          expect(response.body.message)
+            .to.eq('Login realizado com sucesso')
+        });
+
+    });
 
   });
 
