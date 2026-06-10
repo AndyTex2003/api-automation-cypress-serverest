@@ -17,3 +17,16 @@ export function buscarUsuarioPorId(
         failOnStatusCode
     });
 }
+
+export function atualizarUsuario(
+    id,
+    usuario,
+    failOnStatusCode = true
+) {
+    return cy.request({
+        method: 'PUT',
+        url: `/usuarios/${id}`,
+        failOnStatusCode,
+        body: usuario
+    });
+}

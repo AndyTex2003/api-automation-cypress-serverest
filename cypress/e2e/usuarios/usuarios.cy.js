@@ -1,7 +1,8 @@
-import{ 
+import {
     criarUsuario,
-    buscarUsuarioPorId
- } from "../../services/usuariosService.js"
+    buscarUsuarioPorId,
+    atualizarUsuario
+} from "../../services/usuariosService.js"
 
 describe('ServeRest - Usuários', () => {
 
@@ -44,7 +45,7 @@ describe('ServeRest - Usuários', () => {
                     return buscarUsuarioPorId(idUsuario)
                 })
                 .then((response) => {
-                    
+
                     expect(response.status).to.eq(200)
 
                     expect(response.body.nome)
@@ -63,12 +64,12 @@ describe('ServeRest - Usuários', () => {
 
         buscarUsuarioPorId('123456', false)
             .then((response) => {
-                
+
                 expect(response.status).to.eq(400)
 
                 expect(response.body.id)
                     .to.eq('id deve ter exatamente 16 caracteres alfanuméricos')
-                
+
             });
     });
 
@@ -85,6 +86,50 @@ describe('ServeRest - Usuários', () => {
                 expect(response.body.message)
                     .to.eq('Usuário não encontrado')
             });
+    });
+
+    it('Deve atualizar um usuário com sucesso', () => {
+
+        cy.fixture('usuario').then((dadosUsuario) => {
+
+            const usuario = {
+                ...dadosUsuario,
+                email: `qa${Date.now()}@qa.com`
+            }
+
+            criarUsuario(usuario)
+                .then((response) => {
+
+                    const id = response.body._id
+
+                    const usuarioAtualizado = {
+                        nome: 'QA Atualizado',
+                        email: `qa${Date.now()}@qa.com`,
+                        password: '123456',
+                        administrador: 'true'
+                    }
+
+                    return atualizarUsuario(id, usuarioAtualizado)
+                        .then((response) => {
+
+                            expect(response.status).to.eq(200)
+
+                            expect(response.body.message)
+                                .to.eq('Registro alterado com sucesso')
+
+                            return buscarUsuarioPorId(id)
+                        })
+                        .then((response) => {
+
+                            expect(response.body.nome)
+                                .to.eq('QA Atualizado')
+
+                        });
+
+                    
+
+                });
+        });
     });
 
 
