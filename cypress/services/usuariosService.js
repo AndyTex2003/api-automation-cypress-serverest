@@ -6,3 +6,14 @@ export function criarUsuario(usuario) {
         body: usuario
     });
 }
+
+export function buscarUsuarioPorId(
+    id, 
+    failOnStatusCode = true
+) {
+    return cy.request({
+        method: "GET",
+        url: `/usuarios/${id}`,
+        failOnStatusCode
+    });
+}
