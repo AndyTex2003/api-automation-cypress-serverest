@@ -30,3 +30,14 @@ export function atualizarUsuario(
         body: usuario
     });
 }
+
+export function deletarUsuario(
+    id,
+    failOnStatusCode = true
+) {
+    return cy.request({
+        method: 'DELETE',
+        url: `/usuarios/${id}`,
+        failOnStatusCode
+    });
+}
