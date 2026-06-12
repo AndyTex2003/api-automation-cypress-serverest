@@ -1,7 +1,8 @@
 import {
     criarUsuario,
     buscarUsuarioPorId,
-    atualizarUsuario
+    atualizarUsuario,
+    deletarUsuario
 } from "../../services/usuariosService.js"
 
 describe('ServeRest - Usuários', () => {
@@ -129,6 +130,34 @@ describe('ServeRest - Usuários', () => {
                     
 
                 });
+        });
+    });
+
+    it('Deve excluir usuario com sucesso', () => {
+
+        cy.fixture('usuario').then((dadosUsuario) => {
+
+            const usuario = {
+                ...dadosUsuario,
+                email: `qa${Date.now()}@qa.com`
+            }
+
+            criarUsuario(usuario)
+                .then((response) => {
+
+                    const id = response.body._id
+
+                    return deletarUsuario(id)
+
+                })
+                .then((response) => {
+
+                    expect(response.status).to.eq(200)
+
+                    expect(response.body.message)
+                        .to.eq('Registro excluído com sucesso')
+                });
+                
         });
     });
 
