@@ -1,3 +1,6 @@
+import { criarCarrinho } from "../../services/carrinhosService.js";
+import { realizarLogin } from "../../services/loginService.js";
+import { criarProduto } from "../../services/produtosService.js";
 import {
     criarUsuario,
     buscarUsuarioPorId,
@@ -158,6 +161,73 @@ describe('ServeRest - Usuários', () => {
                         .to.eq('Registro excluído com sucesso')
                 });
                 
+        });
+    });
+
+    it('Não deve permitir excluir usuário com carrinho cadastrado', () => {
+        
+        let idUsuario
+        let token
+
+        cy.fixture('usuario').then((dadosUsuario) => {
+
+            const usuario = {
+                ...dadosUsuario,
+                email: `qa${Date.now()}@qa.com`,
+                administrador: 'true'
+            }
+
+            criarUsuario(usuario)
+                .then((response) => {
+
+                    idUsuario = response.body._id
+
+                    return realizarLogin(
+                        usuario.email,
+                        usuario.password
+                    )
+                })
+                .then((response) => {
+
+                    token = response.body.authorization
+
+                    const produto = {
+                        nome: `Produto ${Date.now()}`,
+                        preco: 100,
+                        descricao: 'Produto de teste',
+                        quantidade: 10
+                    }
+
+                    return criarProduto(produto, token)
+                })
+                .then((response) => {
+
+                    const idProduto = response.body._id
+
+                    return criarCarrinho(
+                        [
+                            {
+                                idProduto,
+                                quantidade: 1
+                            }
+                        ],
+                        token
+                    )
+                })
+                .then((response) => {
+
+                    return deletarUsuario(
+                        idUsuario,
+                        false
+                    )
+                })
+                .then((response) => {
+
+                    expect(response.status).to.eq(400)
+
+                    expect(response.body.message)
+                        .to.eq('Não é permitido excluir usuário com carrinho cadastrado')
+                })
         });
     });
 
