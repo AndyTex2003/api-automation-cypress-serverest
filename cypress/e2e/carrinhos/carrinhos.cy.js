@@ -5,42 +5,31 @@ import {
     criarCarrinho,
     concluirCompra
 } from '../../services/carrinhosService.js'
+import { criarUsuarioAdmin } from '../../factories/usuarioFactory.js';
+import { criarProdutoValido } from '../../factories/produtoFactory.js';
 
-describe('ServeRest - Carrinhos', () => {
+describe('ServeRest - Carrinhos', () => {    
 
-    it('Deve cadastrar carrinho com sucesso', () => {
+    it('Deve cadastrar carrinho com sucesso', () => {  
+        
+            let token
 
-        let usuario
-        let token
-
-        cy.fixture('usuario').then((dadosUsuario) => {
-
-            usuario = {
-                ...dadosUsuario,
-                email: `qa${Date.now()}@qa.com`,
-                administrador: 'true'
-            }
+            const usuario = criarUsuarioAdmin()
 
             return criarUsuario(usuario)
-        })
+        
             .then(() => {
 
                 return realizarLogin(
                     usuario.email,
                     usuario.password
                 )
-            })
+            })            
             .then((response) => {
 
                 token = response.body.authorization
-            })
-            .then(() => {
-                const produto = {
-                    nome: `Produto ${Date.now()}`,
-                    preco: 100,
-                    descricao: 'Produto de teste',
-                    quantidade: 10
-                }
+
+                const produto = criarProdutoValido()
 
                 return criarProduto(produto, token)
             })
@@ -70,21 +59,13 @@ describe('ServeRest - Carrinhos', () => {
     });
 
     it('Não deve permitir possuir mais de 1 carrinho', () => {
-
-        let usuario
+                
         let token
-        let idProduto
+        let idProduto        
 
-        cy.fixture('usuario').then((dadosUsuario) => {
+            const usuario = criarUsuarioAdmin()
 
-            usuario = {
-                ...dadosUsuario,
-                email: `qa${Date.now()}@qa.com`,
-                administrador: 'true'
-            }
-
-            return criarUsuario(usuario)
-        })
+            return criarUsuario(usuario)        
 
             .then(() => {
 
@@ -92,18 +73,12 @@ describe('ServeRest - Carrinhos', () => {
                     usuario.email,
                     usuario.password
                 )
-            })
+            })            
             .then((response) => {
 
                 token = response.body.authorization
-            })
-            .then(() => {
-                const produto = {
-                    nome: `Produto ${Date.now()}`,
-                    preco: 100,
-                    descricao: 'Produto de teste',
-                    quantidade: 10
-                }
+
+                const produto = criarProdutoValido()
 
                 return criarProduto(produto, token)
             })
@@ -144,20 +119,12 @@ describe('ServeRest - Carrinhos', () => {
 
     });
 
-    it('Não deve permitir cadastrar carrinho sem token', () => {
+    it('Não deve permitir cadastrar carrinho sem token', () => {        
 
-        let usuario
-
-        cy.fixture('usuario').then((dadosUsuario) => {
-
-            usuario = {
-                ...dadosUsuario,
-                email: `qa${Date.now()}@qa.com`,
-                administrador: 'true'
-            }
+            const usuario = criarUsuarioAdmin()
 
             return criarUsuario(usuario)
-        })
+        
             .then(() => {
 
                 return realizarLogin(
@@ -169,12 +136,7 @@ describe('ServeRest - Carrinhos', () => {
 
                 const token = response.body.authorization
 
-                const produto = {
-                    nome: `Produto ${Date.now()}`,
-                    preco: 100,
-                    descricao: 'Produto de teste',
-                    quantidade: 10
-                }
+                const produto = criarProdutoValido()
 
                 return criarProduto(produto, token)
             })
@@ -204,20 +166,12 @@ describe('ServeRest - Carrinhos', () => {
             })
     });
 
-    it('Não deve permitir cadastrar carrinho com token inválido', () => {
+    it('Não deve permitir cadastrar carrinho com token invalido', () => {        
 
-        let usuario
-
-        cy.fixture('usuario').then((dadosUsuario) => {
-
-            usuario = {
-                ...dadosUsuario,
-                email: `qa${Date.now()}@qa.com`,
-                administrador: 'true'
-            }
+            const usuario = criarUsuarioAdmin()
 
             return criarUsuario(usuario)
-        })
+        
             .then(() => {
 
                 return realizarLogin(
@@ -229,12 +183,7 @@ describe('ServeRest - Carrinhos', () => {
 
                 const token = response.body.authorization
 
-                const produto = {
-                    nome: `Produto ${Date.now()}`,
-                    preco: 100,
-                    descricao: 'Produto de teste',
-                    quantidade: 10
-                }
+                const produto = criarProdutoValido()
 
                 return criarProduto(produto, token)
             })
@@ -249,7 +198,7 @@ describe('ServeRest - Carrinhos', () => {
                             quantidade: 1
                         }
                     ],
-                    '',
+                    'token-invalido',
                     false
                 )
             })
@@ -263,20 +212,12 @@ describe('ServeRest - Carrinhos', () => {
     });
 
     it('Não deve permitir adicionar produto inexistente ao carrinho', () => {
+        
+        let token        
 
-        let usuario
-        let token
+            const usuario = criarUsuarioAdmin()
 
-        cy.fixture('usuario').then((dadosUsuario) => {
-
-            usuario = {
-                ...dadosUsuario,
-                email: `qa${Date.now()}@qa.com`,
-                administrador: 'true'
-            }
-
-            return criarUsuario(usuario)
-        })
+            return criarUsuario(usuario)        
 
             .then(() => {
 
@@ -312,21 +253,13 @@ describe('ServeRest - Carrinhos', () => {
     });
 
     it('Não deve permitir adicionar quantidade maior que o estoque', () => {
+        
+        let token               
 
-        let usuario
-        let token
-        let idProduto
-
-        cy.fixture('usuario').then((dadosUsuario) => {
-
-            usuario = {
-                ...dadosUsuario,
-                email: `qa${Date.now()}@qa.com`,
-                administrador: 'true'
-            }
+            const usuario = criarUsuarioAdmin()
 
             return criarUsuario(usuario)
-        })
+        
             .then(() => {
 
                 return realizarLogin(
@@ -336,25 +269,19 @@ describe('ServeRest - Carrinhos', () => {
             })
             .then((response) => {
 
-                token = response.body.authorization
+                token = response.body.authorization                
 
-                const produto = {
-                    nome: `Produto ${Date.now()}`,
-                    preco: 100,
-                    descricao: 'Produto de teste',
-                    quantidade: 10
-                }
-
-                return criarProduto(produto, token)
+                return criarProduto(
+                    criarProdutoValido(), 
+                    token
+                )
             })
-            .then((response) => {
-
-                idProduto = response.body._id
+            .then((response) => {                
 
                 return criarCarrinho(
                     [
                         {
-                            idProduto,
+                            idProduto: response.body._id,
                             quantidade: 20
                         }
                     ],
@@ -373,21 +300,14 @@ describe('ServeRest - Carrinhos', () => {
     });
 
     it('Deve concluir compra com sucesso', () => {
-
-        let usuario
+        
         let token
-        let idProduto
+        let idProduto        
 
-        cy.fixture('usuario').then((dadosUsuario) => {
-
-            usuario = {
-                ...dadosUsuario,
-                email: `qa${Date.now()}@qa.com`,
-                administrador: 'true'
-            }
+            const usuario = criarUsuarioAdmin()
 
             return criarUsuario(usuario)
-        })
+        
 
             .then(() => {
 
@@ -400,12 +320,7 @@ describe('ServeRest - Carrinhos', () => {
 
                 token = response.body.authorization
 
-                const produto = {
-                    nome: `Produto ${Date.now()}`,
-                    preco: 100,
-                    descricao: 'Produto de teste',
-                    quantidade: 10
-                }
+                const produto = criarProdutoValido()
 
                 return criarProduto(produto, token)
             })
