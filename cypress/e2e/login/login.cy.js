@@ -1,19 +1,14 @@
 import { criarUsuario } from "../../services/usuariosService.js";
 import { realizarLogin } from "../../services/loginService.js";
-
+import { criarUsuarioAdmin } from "../../factories/usuarioFactory.js";
 
 describe('ServeRest - Login', () => {
 
-  it('Deve criar usuário e fazer login com sucesso', () => {
+  it('Deve criar usuário e fazer login com sucesso', () => {    
 
-    cy.fixture('usuario').then((dadosUsuario) => {
+      const usuario = criarUsuarioAdmin()
 
-      const usuario = {
-        ...dadosUsuario,
-        email: `qa${Date.now()}@qa.com`
-      }
-
-      criarUsuario(usuario)
+      return criarUsuario(usuario)
         .then(() => realizarLogin(usuario.email, usuario.password))
         .then((response) => {
 
@@ -24,22 +19,15 @@ describe('ServeRest - Login', () => {
 
           expect(response.body.message)
             .to.eq('Login realizado com sucesso')
-        });
-
-    });
+        });    
 
   });
 
-  it("Deve retornar erro ao realizar login com senha inválida", () => {
-    
-    cy.fixture('usuario').then((dadosUsuario) => {
+  it("Deve retornar erro ao realizar login com senha inválida", () => {    
 
-      const usuario = {
-        ...dadosUsuario,
-        email: `qa${Date.now()}@qa.com`
-      }
+      const usuario = criarUsuarioAdmin()
 
-      criarUsuario(usuario)
+      return criarUsuario(usuario)
         .then(() => realizarLogin(usuario.email, 'senhaInvalida', false))
         .then((response) => {
 
@@ -47,15 +35,13 @@ describe('ServeRest - Login', () => {
 
           expect(response.body.message)
             .to.eq('Email e/ou senha inválidos')
-        });
-
-    });
+        });    
     
   });
 
   it('Deve retornar erro ao realizar login com usuário inexistente', () => {
 
-    realizarLogin(
+    return realizarLogin(
       'inexistente@qa.com',
       '123456',
       false
@@ -71,7 +57,7 @@ describe('ServeRest - Login', () => {
 
   it('Deve retornar erro ao realizar login sem e-mail', () => {
 
-    cy.request({
+    return cy.request({
       method: 'POST',
       url: '/login',
       failOnStatusCode: false,
@@ -92,7 +78,7 @@ describe('ServeRest - Login', () => {
 
   it('Deve retornar erro ao realizar login sem senha', () => {
 
-    cy.request({
+    return cy.request({
       method: 'POST',
       url: '/login',
       failOnStatusCode: false,
