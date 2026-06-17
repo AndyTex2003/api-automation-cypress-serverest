@@ -1,3 +1,4 @@
+import { criarProdutoValido } from "../../factories/produtoFactory.js";
 import { criarUsuarioAdmin } from "../../factories/usuarioFactory.js";
 import { criarCarrinho } from "../../services/carrinhosService.js";
 import { realizarLogin } from "../../services/loginService.js";
@@ -159,12 +160,7 @@ describe('ServeRest - Usuários', () => {
 
                 token = response.body.authorization
 
-                const produto = {
-                    nome: `Produto ${Date.now()}`,
-                    preco: 100,
-                    descricao: 'Produto de teste',
-                    quantidade: 10
-                }
+                const produto = criarProdutoValido()
 
                 return criarProduto(produto, token)
             })
