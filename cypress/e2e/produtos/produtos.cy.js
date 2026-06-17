@@ -1,23 +1,17 @@
-import { criarUsuario } from '../../services/usuariosService'
-import { realizarLogin } from '../../services/loginService'
-import { criarProduto } from '../../services/produtosService'
+import { criarUsuarioAdmin } from '../../factories/usuarioFactory.js'
+import { criarProdutoValido } from '../../factories/produtoFactory.js';
+import { criarUsuario } from '../../services/usuariosService.js'
+import { realizarLogin } from '../../services/loginService.js'
+import { criarProduto } from '../../services/produtosService.js'
 
 describe('ServeRest - Produtos', () => {
 
     it('Deve cadastrar produto com sucesso', () => {
 
-        let usuario
+        const usuario = criarUsuarioAdmin()
 
-        cy.fixture('usuario').then((dadosUsuario) => {
+        return criarUsuario(usuario)
 
-            usuario = {
-                ...dadosUsuario,
-                email: `qa${Date.now()}@qa.com`,
-                administrador: 'true'
-            }
-
-            return criarUsuario(usuario)
-        })
             .then(() => {
 
                 return realizarLogin(
@@ -29,12 +23,7 @@ describe('ServeRest - Produtos', () => {
 
                 const token = response.body.authorization
 
-                const produto = {
-                    nome: `Produto ${Date.now()}`,
-                    preco: 100,
-                    descricao: 'Produto de teste',
-                    quantidade: 10
-                }
+                const produto = criarProdutoValido()
 
                 return criarProduto(produto, token)
             })
@@ -53,20 +42,13 @@ describe('ServeRest - Produtos', () => {
 
     it('Não deve permitir cadastrar produto com nome já existente', () => {
 
-        let usuario
         let token
         let produto
 
-        cy.fixture('usuario').then((dadosUsuario) => {
+        const usuario = criarUsuarioAdmin()
 
-            usuario = {
-                ...dadosUsuario,
-                email: `qa${Date.now()}@qa.com`,
-                administrador: 'true'
-            }
+        return criarUsuario(usuario)
 
-            return criarUsuario(usuario)
-        })
             .then(() => {
 
                 return realizarLogin(
@@ -78,12 +60,7 @@ describe('ServeRest - Produtos', () => {
 
                 token = response.body.authorization
 
-                produto = {
-                    nome: `Produto ${Date.now()}`,
-                    preco: 100,
-                    descricao: 'Produto de teste',
-                    quantidade: 10
-                }
+                produto = criarProdutoValido()
 
                 return criarProduto(produto, token)
             })
@@ -107,14 +84,9 @@ describe('ServeRest - Produtos', () => {
 
     it('Não deve permitir cadastrar produto sem token', () => {
 
-        const produto = {
-            nome: `Produto ${Date.now()}`,
-            preco: 100,
-            descricao: 'Produto de teste',
-            quantidade: 10
-        }
+        const produto = criarProdutoValido()
 
-        criarProduto(
+        return criarProduto(
             produto,
             '',
             false
@@ -130,18 +102,13 @@ describe('ServeRest - Produtos', () => {
 
     it('Não deve permitir cadastrar produto com usuário não administrador', () => {
 
-        let usuario
+        const usuario = {
+            ...criarUsuarioAdmin(),
+            administrador: 'false'
+        }
 
-        cy.fixture('usuario').then((dadosUsuario) => {
+        return criarUsuario(usuario)
 
-            usuario = {
-                ...dadosUsuario,
-                email: `qa${Date.now()}@qa.com`,
-                administrador: 'false'
-            }
-
-            return criarUsuario(usuario)
-        })
             .then(() => {
 
                 return realizarLogin(
@@ -153,12 +120,7 @@ describe('ServeRest - Produtos', () => {
 
                 const token = response.body.authorization
 
-                const produto = {
-                    nome: `Produto ${Date.now()}`,
-                    preco: 100,
-                    descricao: 'Produto de teste',
-                    quantidade: 10
-                }
+                const produto = criarProdutoValido()
 
                 return criarProduto(
                     produto,
@@ -177,25 +139,20 @@ describe('ServeRest - Produtos', () => {
 
     it('Não deve permitir cadastrar produto com token inválido', () => {
 
-        const produto = {
-            nome: `Produto ${Date.now()}`,
-            preco: 100,
-            descricao: 'Produto de teste',
-            quantidade: 10
-        }
+        const produto = criarProdutoValido()
 
-        criarProduto(
+        return criarProduto(
             produto,
             'token inválido',
             false
         )
-        .then((response) => {
+            .then((response) => {
 
-            expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401)
 
-            expect(response.body.message)
-                .to.eq('Token de acesso ausente, inválido, expirado ou usuário do token não existe mais')
-        })
+                expect(response.body.message)
+                    .to.eq('Token de acesso ausente, inválido, expirado ou usuário do token não existe mais')
+            })
     });
 
 });
