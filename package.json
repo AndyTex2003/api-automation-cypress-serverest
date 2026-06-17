@@ -4,8 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "cy:run": "cypress run",
+  "cy:run:headed": "cypress run --headed",
+  "report:generate": "marge cypress/reports/mochawesome.json --reportDir mochawesome-report --reportFilename index",
+  "report:open": "start mochawesome-report\\index.html",
+  "test:report": "npm run cy:run && npm run report:generate",
+  "test:report:headed": "npm run cy:run:headed && npm run report:generate"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AndyTex2003/api-automation-cypress-serverest.git"
@@ -19,6 +24,9 @@
   },
   "homepage": "https://github.com/AndyTex2003/api-automation-cypress-serverest#readme",
   "devDependencies": {
-    "cypress": "^15.16.0"
+    "cypress": "^15.16.0",
+    "mochawesome": "^7.1.4",
+    "mochawesome-merge": "^5.1.1",
+    "mochawesome-report-generator": "^6.3.2"
   }
 }
