@@ -1,10 +1,9 @@
-import { criarProduto } from '../../services/produtosService.js'
 import {
     criarCarrinho,
     concluirCompra
 } from '../../services/carrinhosService.js'
-import { criarProdutoValido } from '../../factories/produtoFactory.js';
 import { criarUsuarioELogin } from '../../helpers/authHelper.js';
+import { criarProdutoComToken } from '../../helpers/produtoHelper.js';
 
 describe('ServeRest - Carrinhos', () => {
 
@@ -17,9 +16,7 @@ describe('ServeRest - Carrinhos', () => {
 
                 token = response.body.authorization
 
-                const produto = criarProdutoValido()
-
-                return criarProduto(produto, token)
+                return criarProdutoComToken(token)
             })
             .then((response) => {
 
@@ -56,9 +53,7 @@ describe('ServeRest - Carrinhos', () => {
 
                 token = response.body.authorization
 
-                const produto = criarProdutoValido()
-
-                return criarProduto(produto, token)
+                return criarProdutoComToken(token)
             })
             .then((response) => {
 
@@ -104,9 +99,7 @@ describe('ServeRest - Carrinhos', () => {
 
                 const token = response.body.authorization
 
-                const produto = criarProdutoValido()
-
-                return criarProduto(produto, token)
+                return criarProdutoComToken(token)
             })
             .then((response) => {
 
@@ -141,9 +134,7 @@ describe('ServeRest - Carrinhos', () => {
 
                 const token = response.body.authorization
 
-                const produto = criarProdutoValido()
-
-                return criarProduto(produto, token)
+                return criarProdutoComToken(token)
             })
             .then((response) => {
 
@@ -208,10 +199,7 @@ describe('ServeRest - Carrinhos', () => {
 
                 token = response.body.authorization
 
-                return criarProduto(
-                    criarProdutoValido(),
-                    token
-                )
+                return criarProdutoComToken(token)
             })
             .then((response) => {
 
@@ -246,9 +234,7 @@ describe('ServeRest - Carrinhos', () => {
 
                 token = response.body.authorization
 
-                const produto = criarProdutoValido()
-
-                return criarProduto(produto, token)
+                return criarProdutoComToken(token)
             })
             .then((response) => {
 
