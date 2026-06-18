@@ -1,30 +1,18 @@
-import { criarUsuario } from '../../services/usuariosService.js'
-import { realizarLogin } from '../../services/loginService.js'
 import { criarProduto } from '../../services/produtosService.js'
 import {
     criarCarrinho,
     concluirCompra
 } from '../../services/carrinhosService.js'
-import { criarUsuarioAdmin } from '../../factories/usuarioFactory.js';
 import { criarProdutoValido } from '../../factories/produtoFactory.js';
+import { criarUsuarioELogin } from '../../helpers/authHelper.js';
 
-describe('ServeRest - Carrinhos', () => {    
+describe('ServeRest - Carrinhos', () => {
 
-    it('Deve cadastrar carrinho com sucesso', () => {  
-        
-            let token
+    it('Deve cadastrar carrinho com sucesso', () => {
 
-            const usuario = criarUsuarioAdmin()
+        let token
 
-            return criarUsuario(usuario)
-        
-            .then(() => {
-
-                return realizarLogin(
-                    usuario.email,
-                    usuario.password
-                )
-            })            
+        return criarUsuarioELogin()
             .then((response) => {
 
                 token = response.body.authorization
@@ -59,21 +47,11 @@ describe('ServeRest - Carrinhos', () => {
     });
 
     it('Não deve permitir possuir mais de 1 carrinho', () => {
-                
+
         let token
-        let idProduto        
+        let idProduto
 
-            const usuario = criarUsuarioAdmin()
-
-            return criarUsuario(usuario)        
-
-            .then(() => {
-
-                return realizarLogin(
-                    usuario.email,
-                    usuario.password
-                )
-            })            
+        return criarUsuarioELogin()
             .then((response) => {
 
                 token = response.body.authorization
@@ -119,19 +97,9 @@ describe('ServeRest - Carrinhos', () => {
 
     });
 
-    it('Não deve permitir cadastrar carrinho sem token', () => {        
+    it('Não deve permitir cadastrar carrinho sem token', () => {
 
-            const usuario = criarUsuarioAdmin()
-
-            return criarUsuario(usuario)
-        
-            .then(() => {
-
-                return realizarLogin(
-                    usuario.email,
-                    usuario.password
-                )
-            })
+        return criarUsuarioELogin()
             .then((response) => {
 
                 const token = response.body.authorization
@@ -166,19 +134,9 @@ describe('ServeRest - Carrinhos', () => {
             })
     });
 
-    it('Não deve permitir cadastrar carrinho com token invalido', () => {        
+    it('Não deve permitir cadastrar carrinho com token inválido', () => {
 
-            const usuario = criarUsuarioAdmin()
-
-            return criarUsuario(usuario)
-        
-            .then(() => {
-
-                return realizarLogin(
-                    usuario.email,
-                    usuario.password
-                )
-            })
+        return criarUsuarioELogin()
             .then((response) => {
 
                 const token = response.body.authorization
@@ -212,24 +170,13 @@ describe('ServeRest - Carrinhos', () => {
     });
 
     it('Não deve permitir adicionar produto inexistente ao carrinho', () => {
-        
-        let token        
 
-            const usuario = criarUsuarioAdmin()
+        let token
 
-            return criarUsuario(usuario)        
-
-            .then(() => {
-
-                return realizarLogin(
-                    usuario.email,
-                    usuario.password
-                )
-            })
+        return criarUsuarioELogin()
             .then((response) => {
 
                 token = response.body.authorization
-
 
                 return criarCarrinho(
                     [
@@ -253,30 +200,20 @@ describe('ServeRest - Carrinhos', () => {
     });
 
     it('Não deve permitir adicionar quantidade maior que o estoque', () => {
-        
-        let token               
 
-            const usuario = criarUsuarioAdmin()
+        let token
 
-            return criarUsuario(usuario)
-        
-            .then(() => {
-
-                return realizarLogin(
-                    usuario.email,
-                    usuario.password
-                )
-            })
+        return criarUsuarioELogin()
             .then((response) => {
 
-                token = response.body.authorization                
+                token = response.body.authorization
 
                 return criarProduto(
-                    criarProdutoValido(), 
+                    criarProdutoValido(),
                     token
                 )
             })
-            .then((response) => {                
+            .then((response) => {
 
                 return criarCarrinho(
                     [
@@ -300,22 +237,11 @@ describe('ServeRest - Carrinhos', () => {
     });
 
     it('Deve concluir compra com sucesso', () => {
-        
+
         let token
-        let idProduto        
+        let idProduto
 
-            const usuario = criarUsuarioAdmin()
-
-            return criarUsuario(usuario)
-        
-
-            .then(() => {
-
-                return realizarLogin(
-                    usuario.email,
-                    usuario.password
-                )
-            })
+        return criarUsuarioELogin()
             .then((response) => {
 
                 token = response.body.authorization

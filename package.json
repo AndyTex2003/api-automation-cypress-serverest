@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "cy:run": "cypress run",
+   "cy:run": "cypress run",
   "cy:run:headed": "cypress run --headed",
-  "report:generate": "marge cypress/reports/mochawesome.json --reportDir mochawesome-report --reportFilename index",
+  "report:merge": "mochawesome-merge cypress/reports/mochawesome*.json > output.json",
+  "report:generate": "marge output.json --reportDir mochawesome-report --reportFilename index",
   "report:open": "start mochawesome-report\\index.html",
-  "test:report": "npm run cy:run && npm run report:generate",
-  "test:report:headed": "npm run cy:run:headed && npm run report:generate"
+  "test:report": "npm run cy:run && npm run report:merge && npm run report:generate",
+  "test:report:headed": "npm run cy:run:headed && npm run report:merge && npm run report:generate"
 },
   "repository": {
     "type": "git",

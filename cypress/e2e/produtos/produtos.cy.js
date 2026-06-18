@@ -3,22 +3,14 @@ import { criarProdutoValido } from '../../factories/produtoFactory.js';
 import { criarUsuario } from '../../services/usuariosService.js'
 import { realizarLogin } from '../../services/loginService.js'
 import { criarProduto } from '../../services/produtosService.js'
+import { criarUsuarioELogin } from '../../helpers/authHelper.js';
 
 describe('ServeRest - Produtos', () => {
 
-    it('Deve cadastrar produto com sucesso', () => {
+    it('Deve cadastrar produto com sucesso', () => {        
 
-        const usuario = criarUsuarioAdmin()
-
-        return criarUsuario(usuario)
-
-            .then(() => {
-
-                return realizarLogin(
-                    usuario.email,
-                    usuario.password
-                )
-            })
+        return criarUsuarioELogin()
+            
             .then((response) => {
 
                 const token = response.body.authorization
@@ -45,17 +37,8 @@ describe('ServeRest - Produtos', () => {
         let token
         let produto
 
-        const usuario = criarUsuarioAdmin()
+        return criarUsuarioELogin()
 
-        return criarUsuario(usuario)
-
-            .then(() => {
-
-                return realizarLogin(
-                    usuario.email,
-                    usuario.password
-                )
-            })
             .then((response) => {
 
                 token = response.body.authorization
@@ -143,7 +126,7 @@ describe('ServeRest - Produtos', () => {
 
         return criarProduto(
             produto,
-            'token inválido',
+            'token invalido',
             false
         )
             .then((response) => {
