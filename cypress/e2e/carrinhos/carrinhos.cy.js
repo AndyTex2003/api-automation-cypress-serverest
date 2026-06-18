@@ -3,24 +3,17 @@ import {
     concluirCompra
 } from '../../services/carrinhosService.js'
 import { criarUsuarioELogin } from '../../helpers/authHelper.js';
-import { criarProdutoComToken } from '../../helpers/produtoHelper.js';
+import {
+    criarProdutoComToken,
+    criarUsuarioLoginEProduto
+} from '../../helpers/produtoHelper.js'
 
 describe('ServeRest - Carrinhos', () => {
 
     it('Deve cadastrar carrinho com sucesso', () => {
 
-        let token
-
-        return criarUsuarioELogin()
-            .then((response) => {
-
-                token = response.body.authorization
-
-                return criarProdutoComToken(token)
-            })
-            .then((response) => {
-
-                const idProduto = response.body._id
+        return criarUsuarioLoginEProduto()
+            .then(({ token, idProduto }) => {
 
                 return criarCarrinho(
                     [
@@ -48,16 +41,11 @@ describe('ServeRest - Carrinhos', () => {
         let token
         let idProduto
 
-        return criarUsuarioELogin()
-            .then((response) => {
+        return criarUsuarioLoginEProduto()
+            .then((dados) => {
 
-                token = response.body.authorization
-
-                return criarProdutoComToken(token)
-            })
-            .then((response) => {
-
-                idProduto = response.body._id
+                token = dados.token
+                idProduto = dados.idProduto
 
                 return criarCarrinho(
                     [
@@ -94,16 +82,8 @@ describe('ServeRest - Carrinhos', () => {
 
     it('Não deve permitir cadastrar carrinho sem token', () => {
 
-        return criarUsuarioELogin()
-            .then((response) => {
-
-                const token = response.body.authorization
-
-                return criarProdutoComToken(token)
-            })
-            .then((response) => {
-
-                const idProduto = response.body._id
+        return criarUsuarioLoginEProduto()
+            .then(({ idProduto }) => {
 
                 return criarCarrinho(
                     [
@@ -129,16 +109,8 @@ describe('ServeRest - Carrinhos', () => {
 
     it('Não deve permitir cadastrar carrinho com token inválido', () => {
 
-        return criarUsuarioELogin()
-            .then((response) => {
-
-                const token = response.body.authorization
-
-                return criarProdutoComToken(token)
-            })
-            .then((response) => {
-
-                const idProduto = response.body._id
+        return criarUsuarioLoginEProduto()
+            .then(({ idProduto }) => {
 
                 return criarCarrinho(
                     [
@@ -226,19 +198,8 @@ describe('ServeRest - Carrinhos', () => {
 
     it('Deve concluir compra com sucesso', () => {
 
-        let token
-        let idProduto
-
-        return criarUsuarioELogin()
-            .then((response) => {
-
-                token = response.body.authorization
-
-                return criarProdutoComToken(token)
-            })
-            .then((response) => {
-
-                idProduto = response.body._id
+        return criarUsuarioLoginEProduto()
+            .then(({ token, idProduto }) => {
 
                 return criarCarrinho(
                     [
@@ -249,10 +210,7 @@ describe('ServeRest - Carrinhos', () => {
                     ],
                     token
                 )
-            })
-            .then(() => {
-
-                return concluirCompra(token)
+                    .then(() => concluirCompra(token))
             })
             .then((response) => {
 
