@@ -1,17 +1,17 @@
-# 🚀 API Automation Cypress - ServeRest
+# API Automation Cypress - ServeRest
 
 ![Cypress](https://img.shields.io/badge/Cypress-15.x-brightgreen)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow)
 ![Node.js](https://img.shields.io/badge/Node.js-22.x-green)
 ![Status](https://img.shields.io/badge/Testes-24%20Passing-success)
 
-Projeto de automação de testes de API desenvolvido com Cypress utilizando a API pública ServeRest como sistema sob teste.
+Projeto de automação de testes de **API REST** desenvolvido com **Cypress e JavaScript**, utilizando a API pública **ServeRest** como sistema sob teste.
 
-O objetivo deste projeto é aplicar boas práticas de automação de testes, organização de código, reutilização de componentes, Git Flow e geração de relatórios, simulando uma estrutura próxima à utilizada em projetos reais de QA Automation.
+O projeto foi estruturado para aplicar boas práticas de automação, separação de responsabilidades, reutilização de código, criação dinâmica de massas de teste, validação de cenários positivos e negativos e geração de relatórios de execução.
 
 ---
 
-# 📌 Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - Cypress 15.x
 - JavaScript (ES6+)
@@ -19,110 +19,106 @@ O objetivo deste projeto é aplicar boas práticas de automação de testes, org
 - Mochawesome
 - Git
 - GitHub
-- Git Flow
 - ServeRest API
 
 ---
 
-# 🏗 Arquitetura do Projeto
+## Arquitetura do Projeto
 
-O projeto foi estruturado visando separação de responsabilidades, reutilização de código e facilidade de manutenção.
+O projeto foi estruturado com foco na separação de responsabilidades, reutilização de código e facilidade de manutenção.
 
-## Services
+### Services
 
-Responsáveis pelas chamadas da API.
-
-Exemplos:
-
-- loginService.js
-- usuariosService.js
-- produtosService.js
-- carrinhosService.js
-
----
-
-## Factories
-
-Responsáveis pela criação de massas de teste dinâmicas.
+Responsáveis por centralizar as chamadas realizadas aos endpoints da API.
 
 Exemplos:
 
-- usuarioFactory.js
-- produtoFactory.js
+- `loginService.js`
+- `usuariosService.js`
+- `produtosService.js`
+- `carrinhosService.js`
 
 ---
 
-## Helpers
+### Factories
 
-Responsáveis por encapsular fluxos reutilizáveis.
+Responsáveis pela criação de massas de teste dinâmicas utilizadas nos cenários automatizados.
 
 Exemplos:
 
-### Auth Helper
-
-```js
-criarUsuarioELogin()
-```
-
-Responsável por:
-
-- Criar usuário
-- Realizar login
-- Retornar token de autenticação
-
-### Produto Helper
-
-```js
-criarProdutoComToken(token)
-```
-
-Responsável por:
-
-- Criar produto autenticado
-
-### Helper Composto
-
-```js
-criarUsuarioLoginEProduto()
-```
-
-Responsável por:
-
-- Criar usuário
-- Realizar login
-- Criar produto
-- Retornar token e id do produto
+- `usuarioFactory.js`
+- `produtoFactory.js`
 
 ---
 
-# 📂 Estrutura de Pastas
+### Helpers
+
+Responsáveis por encapsular fluxos reutilizáveis e reduzir a repetição de código nos testes automatizados.
+
+#### Auth Helper
+
+O helper de autenticação utiliza a função:
+
+`criarUsuarioELogin()`
+
+Responsável por:
+
+- Criar um usuário para o cenário de teste
+- Realizar a autenticação
+- Retornar o token utilizado nas requisições autenticadas
+
+#### Produto Helper
+
+O helper de produto utiliza a função:
+
+`criarProdutoComToken(token)`
+
+Responsável por:
+
+- Criar um produto utilizando autenticação
+- Reutilizar o token recebido no fluxo
+- Preparar os dados necessários para cenários que dependem de um produto cadastrado
+
+#### Helper Composto
+
+O fluxo composto utiliza a função:
+
+`criarUsuarioLoginEProduto()`
+
+Responsável por:
+
+- Criar um usuário para o cenário de teste
+- Realizar a autenticação
+- Criar um produto autenticado
+- Retornar o token e o ID do produto para utilização nos testes
+---
+
+## Estrutura do Projeto
 
 ```text
-cypress
-├── e2e
-│   ├── login
-│   ├── usuarios
-│   ├── produtos
-│   └── carrinhos
+api-automation-cypress-serverest/
 │
-├── services
+├── cypress/
+│   ├── e2e/
+│   │   ├── carrinhos/
+│   │   ├── login/
+│   │   ├── produtos/
+│   │   └── usuarios/
+│   ├── factories/
+│   ├── fixtures/
+│   ├── helpers/
+│   ├── services/
+│   └── support/
 │
-├── factories
-│
-├── helpers
-│   ├── authHelper.js
-│   └── produtoHelper.js
-│
-├── fixtures
-│
-├── reports
-│
-└── support
+├── .gitignore
+├── README.md
+├── cypress.config.js
+├── package-lock.json
+└── package.json
 ```
-
 ---
 
-# 🧪 Cenários Automatizados
+## Cenários Automatizados
 
 ## Login
 
@@ -162,11 +158,11 @@ cypress
 
 ---
 
-# 📊 Relatórios
+## Relatórios
 
-O projeto utiliza Mochawesome para geração de relatórios HTML.
+O projeto utiliza **Mochawesome** para geração de relatórios HTML das execuções automatizadas.
 
-Gerar relatório:
+### Gerar relatório
 
 ```bash
 npm run test:report
@@ -186,27 +182,28 @@ npm run report:open
 
 ---
 
-# 🚀 Como Executar o Projeto
+## Como Executar o Projeto
 
-## Clonar repositório
+### Clonar o repositório
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/AndyTex2003/api-automation-cypress-serverest.git
+cd api-automation-cypress-serverest
 ```
 
-## Instalar dependências
+### Instalar as dependências
 
 ```bash
 npm install
 ```
 
-## Executar testes
+### Executar os testes
 
 ```bash
 npx cypress run
 ```
 
-## Executar testes com relatório
+### Executar os testes com relatório
 
 ```bash
 npm run test:report
@@ -214,9 +211,9 @@ npm run test:report
 
 ---
 
-# 🌳 Estratégia de Versionamento
+## Estratégia de Versionamento
 
-O projeto utiliza Git Flow para gerenciamento das alterações.
+O projeto utiliza Git e GitHub com uma estratégia baseada em branches de feature e Pull Requests, permitindo organizar as alterações e manter a branch principal estável.
 
 Fluxo utilizado:
 
@@ -238,20 +235,20 @@ Main
 
 ---
 
-# 📈 Próximos Passos
+## Evoluções Futuras
 
-- Implementar GitHub Actions
-- Expandir cobertura dos endpoints
-- Adicionar novos cenários negativos
-- Evoluir documentação do projeto
-- Aprimorar estratégia de relatórios
+- Implementar integração contínua com GitHub Actions para execução automática dos testes em Pull Requests e pushes.
+- Expandir a cobertura automatizada para outros comportamentos e endpoints da API.
+- Adicionar novos cenários negativos e casos de borda.
+- Aprimorar a geração e a disponibilização dos relatórios de execução.
 
 ---
 
-# 👨‍💻 Autor
+## Autor
 
-Anderson Batista dos Santos
+**Anderson Batista dos Santos**
 
-LinkedIn: https://www.linkedin.com/in/anderson-santos-qa
+QA | Testes de Software | Qualidade de Software
 
-GitHub: https://github.com/AndyTex2003
+- LinkedIn: [linkedin.com/in/anderson-santos-qa](https://www.linkedin.com/in/anderson-santos-qa/)
+- GitHub: [github.com/AndyTex2003](https://github.com/AndyTex2003)
