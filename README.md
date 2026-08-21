@@ -120,7 +120,7 @@ api-automation-cypress-serverest/
 
 ## Cenários Automatizados
 
-## Login
+### Login
 
 - Login com sucesso
 - Login com senha inválida
@@ -128,7 +128,7 @@ api-automation-cypress-serverest/
 - Login sem e-mail
 - Login sem senha
 
-## Usuários
+### Usuários
 
 - Criar usuário
 - Buscar usuário por ID
@@ -138,7 +138,7 @@ api-automation-cypress-serverest/
 - Excluir usuário
 - Não permitir excluir usuário com carrinho cadastrado
 
-## Produtos
+### Produtos
 
 - Cadastrar produto com sucesso
 - Não permitir produto duplicado
@@ -146,7 +146,7 @@ api-automation-cypress-serverest/
 - Não permitir cadastro com token inválido
 - Não permitir cadastro por usuário não administrador
 
-## Carrinhos
+### Carrinhos
 
 - Cadastrar carrinho com sucesso
 - Não permitir mais de um carrinho
@@ -168,13 +168,13 @@ O projeto utiliza **Mochawesome** para geração de relatórios HTML das execuç
 npm run test:report
 ```
 
-Gerar relatório com navegador visível:
+### Gerar relatório com navegador visível:
 
 ```bash
 npm run test:report:headed
 ```
 
-Abrir relatório:
+### Abrir relatório:
 
 ```bash
 npm run report:open
