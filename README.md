@@ -1,11 +1,11 @@
 # API Automation Cypress - ServeRest
 
-![Cypress](https://img.shields.io/badge/Cypress-15.x-brightgreen)
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow)
-![Node.js](https://img.shields.io/badge/Node.js-22.x-green)
-![Status](https://img.shields.io/badge/Testes-24%20Passing-success)
+![Cypress](https://img.shields.io/badge/Cypress-17202C?style=flat-square&logo=cypress&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![API REST](https://img.shields.io/badge/API-REST-0A7EA4?style=flat-square)
+![Testes](https://img.shields.io/badge/Testes-24%20Passing-2DA44E?style=flat-square)
 
-Projeto de automação de testes de **API REST** desenvolvido com **Cypress e JavaScript**, utilizando a API pública **ServeRest** como sistema sob teste.
+Projeto de automação de testes de **API REST** desenvolvido com **Cypress** e **JavaScript**, utilizando a API pública **ServeRest** como sistema sob teste.
 
 O projeto foi estruturado para aplicar boas práticas de automação, separação de responsabilidades, reutilização de código, criação dinâmica de massas de teste, validação de cenários positivos e negativos e geração de relatórios de execução.
 
@@ -13,23 +13,23 @@ O projeto foi estruturado para aplicar boas práticas de automação, separaçã
 
 ## Tecnologias Utilizadas
 
-- Cypress 15.x
-- JavaScript (ES6+)
-- Node.js 22.x
-- Mochawesome
-- Git
-- GitHub
-- ServeRest API
+![Cypress](https://img.shields.io/badge/Cypress-15.x-17202C?style=flat-square&logo=cypress&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6%2B-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![Node.js](https://img.shields.io/badge/Node.js-22.x-339933?style=flat-square&logo=nodedotjs&logoColor=white)
+![Mochawesome](https://img.shields.io/badge/Report-Mochawesome-2DA44E?style=flat-square)
+![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)
+![ServeRest](https://img.shields.io/badge/API-ServeRest-0A7EA4?style=flat-square)
 
 ---
 
 ## Arquitetura do Projeto
 
-O projeto foi estruturado com foco na separação de responsabilidades, reutilização de código e facilidade de manutenção.
+O projeto foi estruturado com foco em separação de responsabilidades, reutilização de código e facilidade de manutenção.
 
 ### Services
 
-Responsáveis por centralizar as chamadas realizadas aos endpoints da API.
+Responsáveis por centralizar as chamadas aos endpoints da API.
 
 Exemplos:
 
@@ -48,8 +48,6 @@ Exemplos:
 
 - `usuarioFactory.js`
 - `produtoFactory.js`
-
----
 
 ### Helpers
 
@@ -91,6 +89,7 @@ Responsável por:
 - Realizar a autenticação
 - Criar um produto autenticado
 - Retornar o token e o ID do produto para utilização nos testes
+
 ---
 
 ## Estrutura do Projeto
@@ -119,6 +118,8 @@ api-automation-cypress-serverest/
 ---
 
 ## Cenários Automatizados
+
+A suíte contempla **24 cenários automatizados**, distribuídos entre os módulos de Login, Usuários, Produtos e Carrinhos.
 
 ### Login
 
@@ -168,13 +169,13 @@ O projeto utiliza **Mochawesome** para geração de relatórios HTML das execuç
 npm run test:report
 ```
 
-### Gerar relatório com navegador visível:
+### Gerar relatório com navegador visível
 
 ```bash
 npm run test:report:headed
 ```
 
-### Abrir relatório:
+### Abrir relatório
 
 ```bash
 npm run report:open
@@ -213,7 +214,7 @@ npm run test:report
 
 ## Estratégia de Versionamento
 
-O projeto utiliza Git e GitHub com uma estratégia baseada em branches de feature e Pull Requests, permitindo organizar as alterações e manter a branch principal estável.
+O projeto utiliza **Git** e **GitHub** com uma estratégia baseada em **feature branches** e **Pull Requests**, permitindo organizar as alterações e manter a branch principal estável.
 
 Fluxo utilizado:
 
@@ -237,10 +238,10 @@ Main
 
 ## Evoluções Futuras
 
-- Implementar integração contínua com GitHub Actions para execução automática dos testes em Pull Requests e pushes.
-- Expandir a cobertura automatizada para outros comportamentos e endpoints da API.
-- Adicionar novos cenários negativos e casos de borda.
-- Aprimorar a geração e a disponibilização dos relatórios de execução.
+- Implementar **integração contínua com GitHub Actions** para execução automática dos testes em Pull Requests e pushes.
+- Expandir a **cobertura automatizada** para outros comportamentos e endpoints da API.
+- Adicionar novos **cenários negativos e casos de borda**.
+- Aprimorar a **geração e disponibilização dos relatórios de execução**.
 
 ---
 
